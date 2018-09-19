@@ -2,7 +2,7 @@
 
 The REST over Servlet mode applications runs in web container. You need to create a new servlet project to wrap the microservices, pack them into war packages, and load them into the web container to run.
 
-## ~~对外发布的Path?(按照servlet的术语翻译)~~
+## Path for external access
 
 Not like running as a standalone process, when the microservice runs in the web container, the web root and servlet url pattern will be different.
 
@@ -170,9 +170,9 @@ When integrating with servlet, there are a few concepts involved:
   servicecomb.rest.servlet.urlPattern: /rest/*
   ```
 
-- ~~SpringMVC UI or RestController access request, sent to internal microservices via ServiceComb as consumer~~ 
+- SpringMVC or RestController provide web services, ServiceComb proxy the requests as consumer
 
-  web.xml：  
+  web.xml：
 
   ```xml
   <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -193,8 +193,8 @@ When integrating with servlet, there are a few concepts involved:
   microservice.yaml：
   Servicecomb.rest.address and servicecomb.rest.servlet.urlPattern are not configured
 
-- ~~The springMVC UI or RestController accesses some requests while accessing other requests through ServiceComb~~ 
-  web.xml：  
+- SpringMVC UI/RestController and ServiceComb provide services at the same time
+  web.xml：
 
   ```xml
   <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
