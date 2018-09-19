@@ -1,16 +1,16 @@
 ## Concepts
 
-ServiceComb provides access log functionality based on Vert.x. When users use REST over Vertx communication, access log printing can be enabled through a simple configuration.
+ServiceComb provides Vert.x based access log. When developing with REST over Vert.x , access log printing can be enabled through a simple configuration.
 
 ## Scenarios
 
-The user may need to open the access log when debugging the service. In the case of using the REST over servlet communication method, the access log function of the web container can be used; and in the case of using the REST over Vertx communication method, a set of access log functions provided by ServiceComb can be used.
+The user may need the access log when debugging the application. When using REST over servlet, the web container provides the access log function; for REST over Vert.x, ServiceComb provides a set of access log functionalities.
 
 ## Configuration
 
 ### Enable Access Log
 
-Users need to add configuration in the microservice.yaml file to enable access log. The configuration example is as follows:
+Add the following configurations in the microservice.yaml file to enable access log:
 
 ```yaml
 servicecomb:
@@ -20,10 +20,10 @@ servicecomb:
 
 _**Access log Configuration Items**_
 
-| Configuration Item            | Rabge                | Default Value        | Description                            |
-| :---------------------------- | :------------------- | :------------------- | :------------------------------------- |
-| servicecomb.accesslog.enabled | true/false           | false                | 如果为true则启用access log，否则不启用 |
-| servicecomb.accesslog.pattern | 表示打印格式的字符串 | "%h - - %t %r %s %B" | 配置项见_**日志元素说明表**_           |
+| Configuration Item            | Rabge                 | Default Value        | Description                                        |
+| :---------------------------- | :-------------------- | :------------------- | :------------------------------------------------- |
+| servicecomb.accesslog.enabled | true/false            | false                | true to enabled access log                         |
+| servicecomb.accesslog.pattern | the format of the log | "%h - - %t %r %s %B" | See _**log configuration items**_ for more details |
 
 > _**Note**_
 >
@@ -31,64 +31,64 @@ _**Access log Configuration Items**_
 
 ### Log format configuration
 
-目前可用的日志元素配置项见 ***日志元素说明表(Apache & W3C)*** 和 ***日志元素说明表(ServiceComb)*** 。
+The currently available configuration items for log are describe in the following table ***Log configuration items(Apache & W3C)*** and***Log configuration items(ServiceComb)*** 。
 
-_**日志元素说明表 (Apache & W3C)**_
+_**Log configuration items (Apache & W3C)**_
 
-| 元素名称                                      | Apache日志格式                        | W3C日志格式  | 说明                                                         |
-| :-------------------------------------------- | :------------------------------------ | :----------- | :----------------------------------------------------------- |
-| HTTP method                                   | %m                                    | cs-method    | -                                                            |
-| HTTP status                                   | %s                                    | sc-status    | -                                                            |
-| Duration in second                            | %T                                    | -            | -                                                            |
-| Duration in millisecond                       | %D                                    | -            | -                                                            |
-| Remote hostname                               | %h                                    | -            | -                                                            |
-| Local hostname                                | %v                                    | -            | -                                                            |
-| Local port                                    | %p                                    | -            | -                                                            |
-| Size of response                              | %B                                    | -            | 如果消息体长度为零则打印"0"                                  |
-| Size of response                              | %b                                    | -            | 如果消息体长度为零则打印"-"                                  |
-| First line of request                         | %r                                    | -            | 包含HTTP Method、Uri、Http版本三部分内容                     |
-| URI path                                      | %U                                    | cs-uri-stem  | -                                                            |
-| Query string                                  | %q                                    | cs-uri-query | -                                                            |
-| URI path and query string                     | -                                     | cs-uri       | -                                                            |
-| Request protocol                              | %H                                    | -            | -                                                            |
-| Datetime the request is received              | %t                                    | -            | 按照默认设置打印时间戳，格式为"EEE, dd MMM yyyy HH:mm:ss zzz"，语言为英文，时区为GMT |
-| Configurable datetime the request is received | %{PATTERN}t                           | -            | 按照指定的格式打印时间戳，语言为英文，时区为GMT              |
-| Configurable datetime the request is received | %{PATTERN&#124;TIMEZONE&#124;LOCALE}t | -            | 按照指定的格式、语言、时区打印时间戳。允许省略其中的某部分配置（但两个分隔符号"&#124;"不可省略）。 |
-| Request header                                | %{VARNAME}i                           | -            | 如果没有找到指定的header，则打印"-"                          |
-| Response header                               | %{VARNAME}o                           | -            | 如果没有找到指定的header，则打印"-"                          |
-| Cookie                                        | %{VARNAME}C                           | -            | 如果没有找到指定的cookie，则打印"-"                          |
+| Item                                          | Apache log format                     | W3C log format | Description                                                  |
+| :-------------------------------------------- | :------------------------------------ | :------------- | :----------------------------------------------------------- |
+| HTTP method                                   | %m                                    | cs-method      | -                                                            |
+| HTTP status                                   | %s                                    | sc-status      | -                                                            |
+| Duration in second                            | %T                                    | -              | -                                                            |
+| Duration in millisecond                       | %D                                    | -              | -                                                            |
+| Remote hostname                               | %h                                    | -              | -                                                            |
+| Local hostname                                | %v                                    | -              | -                                                            |
+| Local port                                    | %p                                    | -              | -                                                            |
+| Size of response                              | %B                                    | -              | Print "0" if body size is 0                                  |
+| Size of response                              | %b                                    | -              | Print "-" if body size is 0                                  |
+| First line of request                         | %r                                    | -              | Include HTTP Method, Uri and HTTP version                    |
+| URI path                                      | %U                                    | cs-uri-stem    | -                                                            |
+| Query string                                  | %q                                    | cs-uri-query   | -                                                            |
+| URI path and query string                     | -                                     | cs-uri         | -                                                            |
+| Request protocol                              | %H                                    | -              | -                                                            |
+| Datetime the request is received              | %t                                    | -              | Print time stamp by the default configuration, the format is "EEE, dd MMM yyyy HH:mm:ss zzz", in English and GMT time zone |
+| Configurable datetime the request is received | %{PATTERN}t                           | -              | Print time stamp by specified format, in English and GMT time zone |
+| Configurable datetime the request is received | %{PATTERN&#124;TIMEZONE&#124;LOCALE}t | -              | Print time stamp by the specified format, language and time zone. The items between vertical bar can be empty(while the \| should not be omitted) |
+| Request header                                | %{VARNAME}i                           | -              | Print "-" if the specified request header is not found       |
+| Response header                               | %{VARNAME}o                           | -              | Print "-" if the specified response header is not found      |
+| Cookie                                        | %{VARNAME}C                           | -              | Print "-" if the specified cookie is not found               |
 
-_**日志元素说明表(ServiceComb)**_
+_**Log configuration items(ServiceComb)**_
 
-| Element            | Placeholder       | Comment                                                   |
-| :----------------- | :---------------- | :-------------------------------------------------------- |
-| TraceId            | %SCB-traceId      | 打印ServiceComb生成的trace id，找不到则打印"-"            |
-| Invocation Context | %{VARNAME}SCB-ctx | 打印key为`VARNAME`的invocation context值，找不到则打印"-" |
+| Element            | Placeholder       | Comment                                                      |
+| :----------------- | :---------------- | :----------------------------------------------------------- |
+| TraceId            | %SCB-traceId      | Print the trace id generated by ServiceComb, if the id is not found, print "-" |
+| Invocation Context | %{VARNAME}SCB-ctx | Print the invocation context value whose key is `VARNAME`, if the key is not found, print "-" |
 
-### Log output file configuration
+### Output log file configuration
 
-The log print implementation framework for Access log defaults to Log4j and provides a default set of log files. Users can override these configurations in their own defined log4j.properties file. User-configurable log file configuration items are listed in the table below.
+The default log framework for Access log is Log4j which provides a default set of configurations for log files. Users can override these configurations in their own log4j.properties file. The configuration items for log files are as follows.
 
-_**日志文件配置项**_
+_**Log file configuration items**_
 
-| 配置项                               | 默认值           | 含义                       | 说明                                       |
-| :----------------------------------- | :--------------- | :------------------------- | :----------------------------------------- |
-| paas.logs.accesslog.dir              | ${paas.logs.dir} | 日志文件输出目录           | 与普通日志输出到同一个目录中               |
-| paas.logs.accesslog.file             | access.log       | 日志文件名                 | -                                          |
-| log4j.appender.access.MaxBackupIndex | 10               | 最大保存的日志滚动文件个数 | -                                          |
-| log4j.appender.access.MaxFileSize    | 20MB             | 日志文件最大体积           | 正在记录的文件达到此大小时触发日志滚动存储 |
-| log4j.appender.access.logPermission  | rw-------        | 日志文件权限               | -                                          |
+| Item                                 | Default Value    | Description                       | Remarks                                                      |
+| :----------------------------------- | :--------------- | :-------------------------------- | :----------------------------------------------------------- |
+| paas.logs.accesslog.dir              | ${paas.logs.dir} | The output path of the log file   | The common logs will be outputted to the same path           |
+| paas.logs.accesslog.file             | access.log       | Name of the log file              | -                                                            |
+| log4j.appender.access.MaxBackupIndex | 10               | Max file numbers for log rotating | -                                                            |
+| log4j.appender.access.MaxFileSize    | 20MB             | Max size of log file              | When log file reaches the max size, log rotating is triggered |
+| .appender.access.logPermission       | rw-------        | Log file permissions              | -                                                            |
 
 > _**Note**_ 
-> Since ServiceComb's log printing function only relies on the slf4j interface, users can select other log printing frameworks. Users need to configure the log file output option when selecting other log printing frameworks.
+> Since ServiceComb's log function relies only on the slf4j interface, users can select other log frameworks. For other frameworks, users need to configure the log file output options.
 
-### Log implementation framework switched to logback
+### Switch to logback
 
-> For the project that uses logback as the log printing framework, the log printing framework needs to be changed from Log4j to logback and some configurations are added to make the access log function take effect.
+> For the project that uses logback, the log framework dependency should be changed from Log4j to logback and add some configurations to make access log work.
 
-#### 1. Exclude Log4j dependencies
+#### 1. Remove Log4j dependencies
 
-Before switching the log implementation framework to logback, you need to check the dependencies of the project and exclude Log4j related dependencies. Run the maven command dependency:tree in the project, find the ServiceComb component that depends on Log4j, and add the following configuration to its <dependency> dependency:
+Before switching to logback, check the dependencies of the project and remove Log4j related dependencies. Run the maven command `dependency:tree` in the project, find the ServiceComb components that depend on Log4j, and add the following configuration to its `<dependency>`:
 
 ```xml
 <exclusion>
@@ -118,92 +118,93 @@ Add a dependency for the logback in the pom file:
 
 #### 3. Configure the logger for the access log component
 
-Since the log printing component provided by ServiceComb obtains the logger named accesslog to print the access log, the key to switching the log implementation framework from Log4j to logback is to provide a file called accesslog and configure the log output file for it. The following is an example of the configuration of the access log in the logback configuration file. This example only shows the configuration related to the access log. Other log configurations are omitted:
+Since the log component provided by ServiceComb obtains the logger named `accesslog` for log printing, the key to log framework switching is to provide a file called `accesslog` and configure the output file for it. The following is a sample configuration of the access log for logback. It only shows the configurations related to the access log. Other log configurations are omitted:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <!-- 用户可根据需要自定义appender -->
+  <!-- Users can customize the appender by their requirement -->
   <appender name="ACCESSLOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>./logs/access.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <fileNamePattern>./logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
-    <!-- 注意：由于access log的内容是在代码中完成格式化的，因此这里只需输出message即可，无需添加额外的格式 -->
+    <!-- Note: the access log content is formatted in code, the pattern should only specify the message without extra format -->
     <encoder>
       <pattern>%msg%n</pattern>
     </encoder>
   </appender>
 
-  <!-- 提供一个名为"accesslog"的logger供access log打印组件使用 -->
+  <!-- Provide a logger named "accesslog" for log printing -->
   <logger name="accesslog" level="INFO" additivity="false">
     <appender-ref ref="ACCESSLOG" />
   </logger>
 </configuration>
 ```
 
-### Custom Extended Access Log
+### Extending Access Log
 
-Users can customize their AccessLogItem by using the AccessLogItem extension mechanism provided by ServiceComb.
+Users can customize their AccessLogItem by ServiceComb's AccessLogItem extension mechanism.
 
-#### Related class description
+#### Related classes
 
 1. `AccessLogItem`
 
 ```java
   public interface AccessLogItem<T> {
     /**
-     * 从accessLogParam中获取特定的内容,组装成access log的打印内容并返回
+     * Get specified content from accessLogParam, generate the access log and return
      */
     String getFormattedItem(AccessLogParam<T> accessLogParam);
   }
 ```
 
-  The definition of AccessLogItem is as shown above. When each request triggers Access Log printing, ServiceComb's Access Log mechanism will traverse a valid AccessLogItem, call the getFormattedItem method to get the Access Log fragment generated by this Item, and splicing all the fragments into an Access Log. In the log file.
+The definition of `AccessLogItem` is as shown above. When request triggers Access Log printing, ServiceComb's Access Log mechanism will traverse a valid `AccessLogItem`, call the `getFormattedItem` method to get the item's Access Log fragment, concatenate all the the fragments into an Access Log, and output it to the log file.
 
-   The parameter AccessLogParam<T> contains the request start time, the end time, and the request context information of type T. In the REST over Vertx communication mode, the type T is the RoutingContext of Vert.x.
+The parameter `AccessLogParam<T>` contains the request start time, the end time, and the request context of type `T`. In the REST over Vert.x communication mode, the type `T` is the `RoutingContext` of Vert.x.
 
-1. `VertxRestAccessLogItemMeta`
+2. `VertxRestAccessLogItemMeta`
 
 ```java
-  // pattern占位符前缀
+  // pattern placeholder prefix
   protected String prefix;
-  // pattern占位符后缀
+  // pattern placeholder suffix
   protected String suffix;
-  // 优先级序号
+  // order number of priority
   protected int order;
-  // AccessLogItem构造器
+  // AccessLogItem constructor
   protected AccessLogItemCreator<RoutingContext> accessLogItemCreator;
 ```
 
-  `VertxRestAccessLogItemMeta`包含如上属性，它定义了ServiceComb如何解析pattern字符串以获得特定的AccessLogItem。
+The  `VertxRestAccessLogItemMeta` contains the properties listed above, it specifies how ServiceComb parse the pattern string to get specific AccessLogItem.
 
-- 如果用户想要定义一个占位符为`%user-defined`的`AccessLogItem`，则需要声明一个`VertxRestAccessLogItemMeta`的子类，设置prefix="%user-defined"，suffix=null，当`AccessLogPatternParser`解析到"%user-defined"时，从此meta类中取得`AccessLogItemCreator`创建对应的`AccessLogItem`。**注意**：由于"%user-defined"占位符中没有变量部分，因此调用`AccessLogItemCreator`传入的配置参数为null。
-- 如果用户想要定义一个占位符为`%{VARNAME}user-defined`的`AccessLogItem`，则声明的`VertxRestAccessLogItemMeta`子类中，设置prefix="%{"，suffix="}user-defined"，当`AccessLogPatternParser`解析到"%{VARNAME}user-defined"时，会截取出"VARNAME"作为配置参数传入`AccessLogItemCreator`，创建一个`AccessLogItem`。
+- To define a `AccessLogItem` with placeholder `%user-defined`, declare a subclass of `VertxRestAccessLogItemMeta`，set prefix="%user-defined", suffix=null, when `AccessLogPatternParser` parses the "%user-defined", it will fetch the `AccessLogItemCreator` from the meta class and create the corresponding `AccessLogItem`. **Note:** since there is not variable in placeholder "%user-defined", the call to `AccessLogItemCreator` passes the configuration parameter null。
 
-  `VertxRestAccessLogItemMeta`有一个子类`CompositeVertxRestAccessLogItemMeta`，当用户需要定义多个AccessLogItem时，可以将多个`VertxRestAccessLogItemMeta`聚合到`CompositeVertxRestAccessLogItemMeta`中。Parser加载到类型为`CompositeVertxRestAccessLogItemMeta`的AccessLogItemMeta时，会调用其`getAccessLogItemMetas()`方法获得一组AccessLogItemMeta。`VertxRestAccessLogItemMeta`使用SPI机制加载，而`CompositeVertxRestAccessLogItemMeta`可以让用户只在SPI配置文件中配置一条记录就加载多条meta信息，给了用户更灵活的选择。
+- To get a `AccessLogItem` with placeholder `%{VARNAME}user-defined`, declare a subclass of`VertxRestAccessLogItemMeta`, set prefix="%{", suffix="}user-defined". When `AccessLogPatternParser`parses "%{VARNAME}user-defined", it will extract the "VARNAME" as parameter to call `AccessLogItemCreator`, to create a `AccessLogItem`.
 
-1. `AccessLogItemCreator`
+  `VertxRestAccessLogItemMeta` has a subclass`CompositeVertxRestAccessLogItemMeta`. When user needs to define multiple AccessLogItems, multiple `VertxRestAccessLogItemMeta` can be aggregated into `CompositeVertxRestAccessLogItemMeta`. When Parser loads AccessLogItemMeta of type `CompositeVertxRestAccessLogItemMeta`, it calls the meta class's `getAccessLogItemMetas()` method to get a set of AccessLogItemMeta. `VertxRestAccessLogItemMeta` is loaded by the SPI mechanism, and `CompositeVertxRestAccessLogItemMeta` allows user to load multiple meta infos with on one record in the SPI configuration file, which provides great flexibility.
+
+3. `AccessLogItemCreator`
 
 ```java
   public interface AccessLogItemCreator<T> {
-    // 接收配置值，返回一个AccessLogItem。如果AccessLogItem的占位符没有可变的配置值部分，则此方法会接收到null。
+    // Receive configuration values and return an AccessLogItem. The method receives a null if there is no variables in AccessLogItem placeholder
     AccessLogItem<T> createItem(String config);
   }
 ```
 
 The user instantiates his AccessLogItem by setting the AccessLogItemCreator in the custom VertxRestAccessLogItemMeta. Since this is a functional interface, when the AccessLogItem is initialized in a simple way, you can directly define the Creator using a Lambda expression to simplify development.
 
-#### AccessLogItemMeta的匹配规则
+#### Matching rules of AccessLogItemMeta
 
-1. Once AccessLogItemMeta is loaded into the Parser, it will be sorted once. Parser will match the meta list from front to back when parsing the pattern string. The general matching rules are as follows:
-   1. Prioritize matching high priority metas.
-   2. Match the meta with suffix first. When matching multiple suffixes with meta, take the one with the smallest suffix.
-   3. Match the meta of the placeholder first, for example, there are two metas, "%abc" and "%a". If the match is "%abc", it will return directly, no longer match "%a".
+Once AccessLogItemMeta is loaded into the Parser, it will be sorted once. Parser will match the meta list from front to back when parsing the pattern string. The general matching rules are as follows:
+1. Match metas with higher priority.
+2. Match the meta with suffix first. When metas with multiple suffixes are matched, ~~take the one with the smallest suffix.~~
+3. Match the meta with a longer placeholder, for example, there are two metas, "%abc" and "%a". If  "%abc" is matched, it will return directly.
 
-#### 示例说明
+#### Sample
 
-1. 扩展自定义AccessLogItem
+1. Extend AccessLogItem
 
  First, the user needs the AccessLogItem interface to implement their own item:
 
@@ -217,15 +218,15 @@ The user instantiates his AccessLogItem by setting the AccessLogItemCreator in t
 
     @Override
     public String getFormattedItem(AccessLogParam<RoutingContext> accessLogParam) {
-      // 此处是用户自定义的逻辑，需要从AccessLogParam或其他地方取相关数据，生成并返回access log片段
+      // Here is the user's custom logic, user needs to take relevant data from AccessLogParam or other places, generate and return access log fragments
       return "user-defined-[" + config + "]-[" + accessLogParam.getStartMillisecond() + "]";
     }
   }
 ```
 
-1. 定义AccessLogItem的meta类
+2. Define AccessLogItem meta class
 
-Inherit the VertxRestAccessLogItemMeta or CompositeVertxRestAccessLogItemMeta class to define the suffix of the AccessLogItem and other information:
+Inherit the class `VertxRestAccessLogItemMeta` or `CompositeVertxRestAccessLogItemMeta`, define the prefix and suffix of the AccessLogItem:
 
 ```java
   public class UserDefinedCompositeExtendedAccessLogItemMeta extends CompositeVertxRestAccessLogItemMeta {
@@ -242,13 +243,13 @@ Inherit the VertxRestAccessLogItemMeta or CompositeVertxRestAccessLogItemMeta cl
   }
 ```
 
-1. 配置SPI加载文件
+3. Configure the SPI load file
 
-In the resources/META-INF/services/ directory, define a file named "org.apache.servicecomb.transport.rest.vertx.accesslog.parser.VertxRestAccessLogItemMeta" and fill in the full class name of the meta class defined in the previous step. In this file, the Parser loads the meta class.
+In the `resources/META-INF/services/` directory, create a file named "org.apache.servicecomb.transport.rest.vertx.accesslog.parser.VertxRestAccessLogItemMeta" and fill in the full class path of the meta class defined in the previous step. Parser will use this file to load the meta class.
 
-1. Configure Access Log pattern
+4. Configure Access Log pattern
 
-The configuration pattern in the microservice.yaml file is assumed to be "%{test-config}user-defined". The running service triggers the Access Log to print. If the request start time is 1, you can see that the Access Log print content is "user- Defined-[test-config]-[1]".
+The configuration pattern in the microservice.yaml file is assumed to be "%{test-config}user-defined". The running service triggers the Access Log to print. If the request start time is 1, Access Log will print "user- Defined-[test-config]-[1]".
 
 ## Sample code
 
@@ -258,8 +259,8 @@ The configuration pattern in the microservice.yaml file is assumed to be "%{test
 ## other configurations omitted
 servicecomb:
   accesslog:
-    enabled: true  ## 启用access log
-    pattern: "%h - - %t %r %s %B"  ## 自定义日志格式
+    enabled: true  ## Enable access log
+    pattern: "%h - - %t %r %s %B"  ## Custom log format
 ```
 
 ### Configurations in log4j.properties
